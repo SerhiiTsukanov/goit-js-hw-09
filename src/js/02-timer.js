@@ -4,7 +4,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from 'notiflix';
 
-inputFlatpickr = document.querySelector('#datetime-picker');
+inputFlatpickr = document.querySelector("#datetime-picker");
 startBtn = document.querySelector('button[data-start]');
 valueDays = document.querySelector('span[data-days]');
 valueHours = document.querySelector('span[data-hours]');
@@ -66,14 +66,14 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
-console.log(valueDays.textContent);
-console.log(valueHours.textContent);
-console.log(valueMinutes.textContent);
-console.log(valueSeconds.textContent);
+// console.log(valueDays.textContent);
+// console.log(valueHours.textContent);
+// console.log(valueMinutes.textContent);
+// console.log(valueSeconds.textContent);
 
 // Форматирование времени
 function addLeadingZero(value) {
