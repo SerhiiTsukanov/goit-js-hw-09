@@ -6,10 +6,12 @@ import Notiflix from 'notiflix';
 
 inputFlatpickr = document.querySelector('#datetime-picker');
 startBtn = document.querySelector('button[data-start]');
-
-
-
-document.querySelector('[data-start]').disabled = true;
+valueDays = document.querySelector('span[data-days]');
+valueHours = document.querySelector('span[data-hours]');
+valueMinutes = document.querySelector('span[data-minutes]');
+valueSeconds = document.querySelector('span[data-seconds]');
+startBtn.disabled = true;
+flatpickr(inputFlatpickr, options); 
 
 const options = {
   enableTime: true,
@@ -17,11 +19,13 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
     onClose(selectedDates) {
-     if (selectedDates[0] <= new Date()) {
+      if (selectedDates[0] <= new Date()) {
+        document.querySelector('button[data-start]').disabled = true;
+        clearInterval(intervalID);
          Notiflix.Notify.warning('Please choose a date in the future');
          return;
         } 
-        document.querySelector('[data-start]').disabled = false;
+        startBtn.disabled = false;
         startBtn.addEventListener('click', timer);
         function timer() {
             const intervalID = setInterval(() => {
@@ -29,13 +33,18 @@ const options = {
                 const delta = chooiceData - currentData;
                 convertMs(delta);
             }, 1000)
-            // if () {clearInterval(intervalID)}
+          document.querySelector('button[data-start]').disabled = true;
+          if (delta <= 10) {
+            clearInterval(intervalID);
+            // if (daysElement.textContent === 0 && hoursElement.textContent === 0 && minutesElement.textContent === 0 && secondsElement.textContent === 0) {
+            //     clearInterval(intrvalId)
+            // }
+            return;
+          }
         }
     console.log(selectedDates[0]);
   },
 };
-
-flatpickr(inputFlatpickr, options); 
 
 // Для подсчета значений
 function convertMs(ms) {
@@ -61,9 +70,14 @@ console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
 console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
+console.log(valueDays.textContent);
+console.log(valueHours.textContent);
+console.log(valueMinutes.textContent);
+console.log(valueSeconds.textContent);
+
 // Форматирование времени
 function addLeadingZero(value) {
-
+  return String(value).startBtn(2, '0');
 }
 
 // const timer = {
