@@ -10,7 +10,6 @@ valueHours = document.querySelector('span[data-hours]');
 valueMinutes = document.querySelector('span[data-minutes]');
 valueSeconds = document.querySelector('span[data-seconds]');
 
-
 document.querySelector('[data-start]').disabled = true;
 
 const options = {
@@ -19,43 +18,42 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    if (selectedDates[0] <= new Date()) {
+      Notiflix.Notify.warning('Please choose a date in the future');
+      return;
+    } 
+      document.querySelector('[data-start]').disabled = false;
+      startBtn.addEventListener('click', timer);
     
-     if (selectedDates[0] <= new Date()) {
-         Notiflix.Notify.warning('Please choose a date in the future');
-         return;
-        } 
-        document.querySelector('[data-start]').disabled = false;
-        startBtn.addEventListener('click', timer);
-    function timer() {
-      // intervalID: null,
+    console.log(selectedDates[0]);
+  }
+};
+
+function timer() {
+  intervalID = null;
       // this.isActive = true;
-          
-      document.querySelector('button[data-start]').disabled = true;
+  document.querySelector('button[data-start]').disabled = true;
       // if (isActive) {
       //   return;
       // }
-      const intervalID = setInterval(() => {
-        
-        // if (delta <= 100) {
-        //   clearInterval(intervalID);
-        //   return;
-        // }
-        const currentDate = Date.now();
-          const delta = selectedDates - currentDate;
-        
-        addLeadingZero(convertMs(delta));
-      }, 1000)
-      
-            // if () {clearInterval(intervalID)}
-        }
-    console.log(selectedDates[0]);
-  },
+  
+  
+  intervalID = setInterval(() => { 
+    
+    const currentDate = Date.now();
+    const delta = selectedDates - currentDate;
+    convertMs(delta);
+  }, 1000);
+  if (delta <= 100) {
+    clearInterval(intervalID);
+      return;
+    }
 };
 
 flatpickr(inputFlatpickr, options); 
 
 // Добавляет 0
-function pad(value) {
+function addLeadingZero(value) {
   return String(value).padStart(2, 0);
 }
 
@@ -68,29 +66,27 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = pad(Math.floor(ms / day));
+  const days = addLeadingZero(Math.floor(ms / day));
   // Remaining hours
-  const hours = pad(Math.floor((ms % day) / hour));
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = pad(Math.floor(((ms % day) % hour) / minute));
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = pad(Math.floor((((ms % day) % hour) % minute) / second));
+  const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
-
-
+console.log(convertMs(days)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+console.log(convertMs(hours)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+console.log(convertMs(minutes)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
 // Форматирование времени
-function addLeadingZero({ days, hours, minutes, seconds }) {
-valueDays.textContent = days;
-valueHours.textContent = hours;
-valueMinutes.textContent = minutes;
-valueSeconds.textContent = seconds;
+function updateClockface({ days, hours, minutes, seconds }) {
+valueDays.textContent = `${days}`;
+valueHours.textContent = `${hours}`;
+valueMinutes.textContent = `${minutes}`;
+valueSeconds.textContent = `${seconds}`;
 }
 
 // const timer = {
