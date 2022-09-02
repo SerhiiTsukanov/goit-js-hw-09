@@ -1,6 +1,6 @@
 import '../css/common.css'
 
-startBtn = document.querySelector('button[data-start]');
+startBtn = document.querySelector('button');
 stopBtn = document.querySelector('button[data-stop]');
 body = document.querySelector('body');
 console.log(stopBtn);
