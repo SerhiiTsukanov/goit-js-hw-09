@@ -1,8 +1,8 @@
 import '../css/common.css'
 
-startBtn = document.querySelector('[data-start]');
-stopBtn = document.querySelector('button[data-stop]');
-body = document.querySelector('body');
+const startBtn = document.querySelector('[data-start]');
+const stopBtn = document.querySelector('button[data-stop]');
+
 console.log(startBtn);
 
 document.querySelector('[data-stop]').disabled = true;
