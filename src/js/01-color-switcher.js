@@ -16,16 +16,16 @@ startBtn.addEventListener('click', timerChangeBackground);
 
 function timerChangeBackground() {
   timerId = setInterval(changeBackground, 1000);
-  document.querySelector('[data-start]').disabled = true;
-  document.querySelector('[data-stop]').disabled = false;
+  startBtn.setAttribute('disabled', true);
+  stopBtn.removeAttribute('disabled', true);
   startBtn.removeEventListener('click', timerChangeBackground);
   stopBtn.addEventListener('click', removeEventListenerFromStopBtn)
 };
 
 function removeEventListenerFromStopBtn() {
   clearInterval(timerId);
-  document.querySelector('[data-start]').disabled = false;
-  document.querySelector('[data-stop]').disabled = true;
+  startBtn.removeAttribute('disabled', true);
+  stopBtn.setAttribute('disabled', true);
   stopBtn.removeEventListener('click', removeEventListenerFromStopBtn);
   startBtn.addEventListener('click', timerChangeBackground);
 }
