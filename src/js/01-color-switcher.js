@@ -1,31 +1,37 @@
 
-const startBtn = document.querySelector('[data-start]');
-const stopBtn = document.querySelector('[data-stop]');
-
-document.querySelector('[data-stop]').disabled = true;
-
-function changeBackground() {
-  document.body.style.backgroundColor = getRandomHexColor();
-}
-
-function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
-
-startBtn.addEventListener('click', timerChangeBackground);
-
-function timerChangeBackground() {
-  timerId = setInterval(changeBackground, 1000);
-  startBtn.setAttribute('disabled', true);
-  stopBtn.removeAttribute('disabled', true);
-  startBtn.removeEventListener('click', timerChangeBackground);
-  stopBtn.addEventListener('click', removeEventListenerFromStopBtn)
+const refs = {
+  startBtn: document.querySelector('button[data-start]'),
+  stopBtn: document.querySelector('button[data-stop]'),
 };
 
-function removeEventListenerFromStopBtn() {
-  clearInterval(timerId);
-  startBtn.removeAttribute('disabled', true);
-  stopBtn.setAttribute('disabled', true);
-  stopBtn.removeEventListener('click', removeEventListenerFromStopBtn);
-  startBtn.addEventListener('click', timerChangeBackground);
+class Timer {
+
+  start() {
+    this.changeBodyColor()
+    this.intervalId = setInterval(() => {
+      this.changeBodyColor()
+    }, 1000);
+  }
+  stop() {
+    clearInterval(this.intervalId);
+    const color = this.getRandomHexColor();
+    refs.startBtn.removeAttribute('disabled', true);
+    refs.stopBtn.setAttribute('disabled', true);
+  }
+
+  getRandomHexColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
+
+  changeBodyColor() {
+    const color = this.getRandomHexColor();
+    document.body.style.backgroundColor = color;
+    refs.startBtn.setAttribute('disabled', true);
+    refs.stopBtn.removeAttribute('disabled', true);
+  }
 }
+
+const timer = new Timer();
+
+refs.startBtn.addEventListener('click', timer.start.bind(timer));
+refs.stopBtn.addEventListener('click', timer.stop.bind(timer));
